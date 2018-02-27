@@ -3,43 +3,43 @@
 Chef de groupe : Fabien Lalande (27/02/18 au 03/04/18 inclus)
 
 ## 27/02/18
-Animateur : Thibaud Murtin
-Secrétaire : Franck Battu
-Responsable matériel et sécurité : /
+Animateur : Thibaud Murtin  
+Secrétaire : Franck Battu  
+Responsable matériel et sécurité : /  
 
 ## 13/03/18
-Animateur : Adrien Rybarczyk
-Secrétaire : Johann Pistorius
-Responsable matériel et sécurité : Erwan Prospert
+Animateur : Adrien Rybarczyk  
+Secrétaire : Johann Pistorius  
+Responsable matériel et sécurité : Erwan Prospert  
 
 ## 27/03/18
-Animateur : Erwan Prospert
-Secrétaire : Thibaud Murtin
-Responsable matériel et sécurité : Tritan Grut
+Animateur : Erwan Prospert  
+Secrétaire : Thibaud Murtin  
+Responsable matériel et sécurité : Tritan Grut  
 
 ## 03/04/18
-Animateur : 
-Secrétaire :
-Responsable matériel et sécurité : 
+Animateur :   
+Secrétaire :  
+Responsable matériel et sécurité :   
 
 ## 10/04/18
-Animateur : 
-Secrétaire :
-Responsable matériel et sécurité : 
+Animateur :   
+Secrétaire :  
+Responsable matériel et sécurité :   
 
 ## 24/04/18
-Animateur : 
-Secrétaire :
-Responsable matériel et sécurité : 
+Animateur :   
+Secrétaire :  
+Responsable matériel et sécurité :   
 
 ## 03/05/18
-Animateur : 
-Secrétaire :
-Responsable matériel et sécurité : 
+Animateur :   
+Secrétaire :  
+Responsable matériel et sécurité :   
 
 ## 15/05/18
-Animateur : 
-Secrétaire :
-Responsable matériel et sécurité : 
+Animateur :   
+Secrétaire :  
+Responsable matériel et sécurité :   
 
 ## 22/05/18 (Soutenance)
