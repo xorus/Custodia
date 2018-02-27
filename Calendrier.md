@@ -15,7 +15,7 @@ Responsable matériel et sécurité : Erwan Prospert
 ## 27/03/18
 Animateur : Erwan Prospert  
 Secrétaire : Thibaud Murtin  
-Responsable matériel et sécurité : Tritan Grut  
+Responsable matériel et sécurité : Tristan Grut  
 
 ## 03/04/18
 Animateur :   
