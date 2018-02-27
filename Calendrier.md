@@ -5,7 +5,7 @@ Chef de groupe : Fabien Lalande (27/02/18 au 03/04/18 inclus)
 ## 27/02/18
 Animateur : Thibaud Murtin  
 Secrétaire : Franck Battu  
-Responsable matériel et sécurité : /  
+Responsable matériel et sécurité : Adrien Rybarczyk 
 
 ## 13/03/18
 Animateur : Adrien Rybarczyk  
