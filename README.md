@@ -4,5 +4,7 @@
 * Thibaud Murtin
 * Franck Battu
 * Adrien Rybarczyk
-* Erwan Prospert
+* Erwan Prospert aka CyberFoxar
 * Fabien Lalande
+* Joahnn Pistorius
+* Tristan Grut
