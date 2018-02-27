@@ -2,6 +2,13 @@
 
 APP "Robotique de Service - Objets connectés" - Polytech Annecy-Chambéry - Promotion 2020
 
+## Communication
+Lien Gdrive, aller voir, demander les droits d'édition:
+> https://drive.google.com/drive/folders/1Ofv-TvyC_dI2_iVumWCIZdLxfFYRJbBr?usp=sharing
+
+Lien Discord (Chat en direct + chat vocal):
+> https://discord.gg/4E2eS
+
 ## Participants :
 * Thibaud Murtin
 * Franck Battu
