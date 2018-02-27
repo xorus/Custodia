@@ -13,3 +13,5 @@ APP "Robotique de Service - Objets connectés" - Polytech Annecy-Chambéry - Pro
 
 ## Tuteurs
 * Flavien Vernier
+* Sebastien Monnet
+* Jean-Jacques Curtelin
