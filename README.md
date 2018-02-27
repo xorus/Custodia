@@ -1,7 +1,6 @@
 # APP-RS-OC-Polytech-2020
 
 APP "Robotique de Service - Objets connectés" - Polytech Annecy-Chambéry - Promotion 2020
-Projet en C++.
 
 ## Contexte 
 Télé-surveillance robotisée assistée par des objets connectés.  
