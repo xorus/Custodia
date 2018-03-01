@@ -15,7 +15,7 @@ Télé-surveillance robotisée assistée par des objets connectés.
 * Adrien Rybarczyk
 * Erwan Prospert aka CyberFoxar
 * Fabien Lalande
-* Joahnn Pistorius
+* Johann Pistorius
 * Tristan Grut
 
 ## Tuteurs
