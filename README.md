@@ -28,4 +28,4 @@ Lien Gdrive, aller voir, demander les droits d'édition:
 > https://drive.google.com/drive/folders/1Ofv-TvyC_dI2_iVumWCIZdLxfFYRJbBr?usp=sharing
 
 Lien Discord (Chat en direct + chat vocal):
-> https://discord.gg/4E2eS
+> https://discord.gg/954RZct
