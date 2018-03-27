@@ -29,3 +29,9 @@ Lien Gdrive, aller voir, demander les droits d'édition:
 
 Lien Discord (Chat en direct + chat vocal):
 > https://discord.gg/954RZct
+
+## Liens GitHub des projets précédents
+Téléprésence robotisée :
+> https://github.com/PacRobotic/gnubiquity
+Télésurveillance robotisée :
+> https://github.com/PacRobotic/Watch_Bot
