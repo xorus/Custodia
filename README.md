@@ -32,6 +32,7 @@ Lien Discord (Chat en direct + chat vocal):
 
 ## Liens GitHub des projets précédents
 Téléprésence robotisée :
-> https://github.com/PacRobotic/gnubiquity  
+> https://github.com/PacRobotic/gnubiquity 
+
 Télésurveillance robotisée :
 > https://github.com/PacRobotic/Watch_Bot
