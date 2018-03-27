@@ -19,7 +19,7 @@ Responsable matériel et sécurité : Tristan Grut
 
 ## 03/04/18
 Animateur : Franck Battu  
-Secrétaire : Tristan Grut 
+Secrétaire : Tristan Grut  
 Responsable matériel et sécurité : Johann Pistorius  
 
 ## 10/04/18
