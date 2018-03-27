@@ -1,6 +1,6 @@
 # Calendrier
 
-Chef de groupe : Fabien Lalande (27/02/18 au 03/04/18 inclus)
+Chef de groupe : Fabien Lalande (27/02/18 au 03/04/18 inclus) et Tristan Grut (10/04/18 au 15/05/18 inclus)
 
 ## 27/02/18
 Animateur : Thibaud Murtin  
