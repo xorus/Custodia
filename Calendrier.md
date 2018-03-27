@@ -18,9 +18,9 @@ Secrétaire : Thibaud Murtin
 Responsable matériel et sécurité : Tristan Grut  
 
 ## 03/04/18
-Animateur :   
-Secrétaire :  
-Responsable matériel et sécurité :   
+Animateur : Franck Battu  
+Secrétaire : Tristan Grut 
+Responsable matériel et sécurité : Johann Pistorius  
 
 ## 10/04/18
 Animateur :   
