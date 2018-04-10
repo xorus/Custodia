@@ -23,9 +23,9 @@ Secrétaire : Tristan Grut
 Responsable matériel et sécurité : Johann Pistorius  
 
 ## 10/04/18
-Animateur :   
-Secrétaire :  
-Responsable matériel et sécurité :   
+Animateur : Fabien Lalande  
+Secrétaire : Adrien Rybarczyk 
+Responsable matériel et sécurité : Thibaud Murtin  
 
 ## 24/04/18
 Animateur :   
