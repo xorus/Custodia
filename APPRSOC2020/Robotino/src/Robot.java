@@ -6,6 +6,10 @@ import rec.robotino.com.OmniDrive;
 
 import static java.lang.Math.*;
 
+/**
+ * @author Johann Pistorius
+ * @author Thibaud Murtin
+ */
 public class Robot implements Runnable
 {
     protected final String hostname;
@@ -19,6 +23,7 @@ public class Robot implements Runnable
     {
         200.0f, 0.0f
     };
+    protected boolean connectionStatus;
 
     public Robot(String hostname)
     {
@@ -42,8 +47,9 @@ public class Robot implements Runnable
             System.out.println("Connecting...");
             connect(hostname);
             System.out.println("Connected.");
-            System.out.println("Driving...");
-            drive();
+            /*System.out.println("Driving...");
+            drive();*/
+            drive(100,0,-30,true);
         }
         catch (Exception e)
         {
@@ -83,10 +89,14 @@ public class Robot implements Runnable
     {
         com.disconnect();
     }
-
-    protected void drive() throws InterruptedException
-    {
-        float[] dir;
+    
+    protected boolean isConnected(){
+    	return com.isConnected();
+    }
+    
+    /*
+    protected void circle() throws InterruptedException{
+    	float[] dir;
         float a = 0.0f;
         long startTime = System.currentTimeMillis();
         int millisecondsElapsed = 0;
@@ -100,21 +110,16 @@ public class Robot implements Runnable
             a = 360.0f * elapsedTime / 10000;
             
             
-            //omniDrive.setVelocity(dir[0], dir[1], 0);
-            //tout droit
-            omniDrive.setVelocity(100, 0, 0);
-            Thread.sleep(1000);
-            //retourne
-            omniDrive.setVelocity(0, 0, 180);
-            Thread.sleep(1000);
-            //straight forward
-            omniDrive.setVelocity(100, 0, 0);
-            Thread.sleep(1000);
-            omniDrive.setVelocity(0, 0, 0);
-            com.waitForUpdate();
+            omniDrive.setVelocity(dir[0], dir[1], 0);
+        }
+    }*/
+    protected void drive(int x, int y, int angle, boolean status) throws InterruptedException{
+
+        while (!Thread.interrupted() && com.isConnected() && false == bumper.value() && status == true)
+        {
+            omniDrive.setVelocity(x, y, angle);
         }
     }
-
     /**
      * Rotate a 2 dimensional vector
      * 
