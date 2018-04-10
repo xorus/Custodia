@@ -29,7 +29,7 @@ Responsable matériel et sécurité : Thibaud Murtin
 
 ## 24/04/18
 Animateur : Johann Pistorius   
-Secrétaire : Erwan Prospert 
+Secrétaire : Erwan Prospert   
 Responsable matériel et sécurité : Franck Battu   
 
 ## 03/05/18
