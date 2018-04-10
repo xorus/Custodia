@@ -24,7 +24,7 @@ Responsable matériel et sécurité : Johann Pistorius
 
 ## 10/04/18
 Animateur : Fabien Lalande  
-Secrétaire : Adrien Rybarczyk 
+Secrétaire : Adrien Rybarczyk  
 Responsable matériel et sécurité : Thibaud Murtin  
 
 ## 24/04/18
