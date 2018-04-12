@@ -1,4 +1,3 @@
-
 import rec.robotino.com.Bumper;
 import rec.robotino.com.Com;
 import rec.robotino.com.Motor;
@@ -36,7 +35,7 @@ public class Robot implements Runnable
         bumper = new Bumper();
     }
 
-    public void run()
+    public void start()
     {
         System.out.println("Robot started.");
         
@@ -47,9 +46,6 @@ public class Robot implements Runnable
             System.out.println("Connecting...");
             connect(hostname);
             System.out.println("Connected.");
-            /*System.out.println("Driving...");
-            drive();*/
-            drive(100,0,-30,true);
         }
         catch (Exception e)
         {
@@ -93,14 +89,17 @@ public class Robot implements Runnable
     protected boolean isConnected(){
     	return com.isConnected();
     }
-    
+    public void run() {
+    	/*System.out.println("Driving...");
+        drive();*/
+        drive(100,0,-30,true);
+    }
     /*
     protected void circle() throws InterruptedException{
     	float[] dir;
         float a = 0.0f;
         long startTime = System.currentTimeMillis();
         int millisecondsElapsed = 0;
-
         while (!Thread.interrupted() && com.isConnected() && false == bumper.value())
         {
 			long elapsedTime = System.currentTimeMillis() - startTime;
