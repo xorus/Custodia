@@ -5,43 +5,48 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/SimpleJoystick.css') }}">
 {% endblock %}
 
+{% block title %}
+	Surveillance {{ parent() }}
+{% endblock %}
+
 {% block body %}
-    <div class="container margin-top">
-    	<div class="row">
-    		<div class="col-md-8">
-    			<div class="card">
-  					<img class="card-img-top" src="http://via.placeholder.com/1600x800" alt="Card image cap">
+
+<div class="jumbotron">
+  <h1 class="display-3 text-center">Surveillance et contrôle</h1>
+</div>
+
+<div class="container margin-top">
+	<div class="row">
+		<div class="col-md-8">
+			<div class="card rounded-0">
+				<div class="card-header">
+					<h5 class="card-title">Ecran de surveillance Robotino</h5>
 				</div>
+				<div class="card-body">
+					<img class="card-img-top" src="http://via.placeholder.com/1600x800" alt="Card image cap">
+				</div>
+				<div class="card-footer"></div>
 			</div>
-			<div class="col-md-4">
-				<div class="JoystickZone">
-					<div class="JoystickMain" id="JoystickMain">
-						<div class="Joystick" id="Joystick">
-						</div>
-					</div>
+		</div>
+		<div class="col-md-4">
+
+			<div class="card rounded-0">
+				<div class="card-header">
+					<h5 class="card-title">Diriger Robotino</h5>
 				</div>
-          	</div>
-          	<button onclick="LoadJoystick()">Load Joystick</button>
-          	<div id="log"></div>
-			<div id="logpercent"></div>
-   		</div>
-	</div>		
+				<div class="card-body">
+					<div id="static" style="height: 344px;"></div>
+				</div>
+				<div class="card-footer"></div>
+			</div>
+		</div>
+	</div>
+</div>		
     	
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('assets/js/app.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/js/SimpleJoystick.js') }}"></script>
-    <script type="text/javascript">
-		setInterval(function(argument)
-		{
-			if(JoystickReady)
-			{
-				document.getElementById("log").innerHTML = "X : " + GetJoystick_X() + "  -  Y : " + GetJoystick_Y();
-				document.getElementById("logpercent").innerHTML = "X : " + GetJoystick_X_Percent() + "%  -  Y : " + GetJoystick_Y_Percent() + "%";
-			}
-			
-		}, 100);
-</script>
+	<script src="{{ asset('assets/js/nipple.min.js')}}"></script>
+	<script src="{{ asset('assets/js/joystick.js') }}"></script>
 {% endblock %}
 
