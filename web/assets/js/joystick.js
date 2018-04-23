@@ -1,8 +1,8 @@
-let socket = new WebSocket("ws://localhost:8888");
-let joystick = document.querySelector('#static');
-let footer = document.querySelector('#joystick-footer');
+const socket = new WebSocket("ws://localhost:8888");
+const joystick = document.querySelector('#static');
+const footer = document.querySelector('#joystick-footer');
 
-let manager = nipplejs.create(
+const manager = nipplejs.create(
     {
         zone: document.getElementById('static'),
         mode: 'static',
@@ -27,7 +27,6 @@ socket.onmessage = (event) => {
     let data = JSON.parse(event.data);
     footer.innerHTML = `<p>Position x : ${data.x}, position y : ${data.y}`;
 }
-
 
 
 // GESTION JOYSTICK
