@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -35,21 +36,28 @@ public class Connexion implements Runnable{
 
 	@Override
 	public void run() {//Thread du server qui récupère les message des Socket d'un client
-		String startJSON="";
+		String initJSON="";
 		try {
 			this.out = new PrintWriter(socketClient.getOutputStream(), true);
 			this.in = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
-			this.out.println("{ \"type\":\"start\",\"infoStart\":\"Server->Client Connexion accepté\",\"serverName\":\""+this.serverRobotino.getNom()+"\"}");
 			
 			String inLine =in.readLine();
 			while(inLine.equals("commande reçu")){
 				inLine = in.readLine();//récupération des informations au déput de la connexion connexion
 			}
-			startJSON = inLine;
-			JSONObject JSON = new JSONObject(startJSON);
-			this.name = JSON.getString("name");
-			this.ipClient = JSON.getString("ipClient");
-			this.type = JSON.getString("type");
+			initJSON = inLine;
+			System.out.println(initJSON);
+
+			JSONObject JSON = new JSONObject(initJSON);
+			String type = JSON.getString("type");
+			System.out.println("Type:"+type);//type = init
+			String info1 = JSON.getString("infoInit");
+			System.out.println("info1: "+info1);
+			//JSONObject JSON = new JSONObject(startJSON);
+			this.name = JSON.getString("clientName");
+			this.ipClient = socketClient.getLocalAddress().toString();
+			System.out.println("ipClient"+ipClient);
+			this.type = JSON.getString("clientType");
 			try {
 				serverRobotino.semStop.acquire();//le server ne peut plus modifier is ServerRunning
 				if(this.serverRobotino.isServerRunning()){
@@ -60,11 +68,11 @@ public class Connexion implements Runnable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			this.out.println("{ \"type\":\"init\",\"infoInit\":\"Server->Client Connexion accepté\",\"serverName\":\""+this.serverRobotino.getNom()+"\"}");
 
-			System.out.println(startJSON);
-			System.out.println("\tAdresse de la socket: "+socketClient.getLocalSocketAddress());
+			/*System.out.println("\tAdresse de la socket: "+socketClient.getLocalSocketAddress());
 			System.out.println("\tnormalement égal à ipClient: "+ipClient);
-			System.out.println("\tInit connexion: "+startJSON);
+			System.out.println("\tInit connexion: "+startJSON);*/
 
 			
 			while(this.serverRobotino.isServerRunning()){
@@ -95,7 +103,7 @@ public class Connexion implements Runnable{
 			System.out.println("\tConnexion "+this.name+" closed by NullPointerException");
 		}catch(org.json.JSONException e){
 			System.out.println("erreur decodage JSON: "+e);
-			System.out.println("JSON: "+startJSON);
+			System.out.println("JSON: "+initJSON);
 		}
 		isRunning=false;
 		if(!isStoping){

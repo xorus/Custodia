@@ -265,26 +265,30 @@ public class ServerRobotino {
 	}
 	public void decodeurJson(String j) {
 		try{
-			returnJSONAllConnexionName();
+			//returnJSONAllConnexionName();
 			JSONObject JSON = new JSONObject(j);
 			String type = JSON.getString("type");
 			System.out.println("Type:"+type);
-			if(type.equals("start")){//inutilisé
-				String info1 = JSON.getJSONObject("infoStart").getString("info1");
-				System.out.println("info1: "+info1);
+			if(type.equals("init")){//inutilisé ici, uniquement au début de la classe connexion
+				//String info1 = JSON.getJSONObject("infoStart").getString("info1");
+				//System.out.println("info1: "+info1);
 			}else if(type.equals("stop")){//client stop connexion
 				String infoStop = JSON.getString("infoStop");
 				System.out.println("infoStop: "+infoStop);
 			}else if(type.equals("requeteAllConnexionName")){//le client demande les nom des connexion
 				String j2="{\"type\":\"requeteAllConnexionName\","+this.returnJSONAllConnexionName()+"}";
-				String eName = JSON.getJSONObject("expediteur").getString("eName");
+				String eName = JSON.getJSONObject("expediteur").getString("name");
 				this.envoiRequete(j2,eName,"0.0.0.0");
+			}else if(type.equals("setPosition")){//le client demande les nom des connexion
+				System.out.println("AAA\tsetPosition: "+j);
+				String eName = JSON.getJSONObject("expediteur").getString("name");
+				this.envoiRequete("{\"type\":\"log\",\"log\",\"Demande setPosition bien reçu\"}",eName,"0.0.0.0");
 			}else if(type.equals("message")){// si on reçoit un message
 				String texte = JSON.getJSONObject("infoMessage").getString("texte");
-				String dName = JSON.getJSONObject("infoMessage").getJSONObject("destinataire").getString("dName");
-				String dIP = JSON.getJSONObject("infoMessage").getJSONObject("destinataire").getString("dIP");
-				String eName = JSON.getJSONObject("infoMessage").getJSONObject("expediteur").getString("eName");
-				String eIP = JSON.getJSONObject("infoMessage").getJSONObject("expediteur").getString("eIP");
+				String dName = JSON.getJSONObject("infoMessage").getJSONObject("destinataire").getString("name");
+				String dIP = JSON.getJSONObject("infoMessage").getJSONObject("destinataire").getString("IP");
+				String eName = JSON.getJSONObject("infoMessage").getJSONObject("expediteur").getString("name");
+				String eIP = JSON.getJSONObject("infoMessage").getJSONObject("expediteur").getString("IP");
 				//String expediteur = JSON.getJSONObject("infoMessage").getString("expediteur");
 				System.out.println("Message de: "+eName+" "+eIP);
 				System.out.println("pour: "+dName+" "+dIP);
@@ -367,7 +371,7 @@ public class ServerRobotino {
 	public void envoieMessage(String message,String dName,String dIP) {
 		try{
 			//client.out.println(inLine.substring(5, inLine.length()));
-			String messageJSON = "{ \"type\":\"message\",\"infoMessage\":{\"texte\":\""+message+"\",\"destinataire\":{\"dName\":\""+dName+"\",\"dIP\":\""+dIP+"\"},\"expediteur\":{\"eName\":\""+this.nom+"\",\"eIP\":\""+this.ip+"\"}}}";
+			String messageJSON = "{ \"type\":\"message\",\"infoMessage\":{\"texte\":\""+message+"\",\"destinataire\":{\"name\":\""+dName+"\",\"IP\":\""+dIP+"\"},\"expediteur\":{\"name\":\""+this.nom+"\",\"IP\":\""+this.ip+"\"}}}";
 			this.envoiRequete(messageJSON,dName,dIP);
 			System.out.println(""+this.getNom()+"\t"+this.getNom()+" "+this.ip+": "+message);
 			//affichage du message dans l'interface

@@ -110,7 +110,7 @@ public class Client implements Runnable{
 				//System.out.println(""+this.nom+"\tgetOutputStream: "+clientSocket.getOutputStream()); ?
 				//TimeUnit.MILLISECONDS.sleep(500);
 				System.out.println(""+this.nom+"\tAdresse de la socket: "+clientSocket.getLocalSocketAddress());
-				out.println("{\"name\": \""+this.nom+"\", \"type\":\"Autre\", \"ipClient\":\""+this.ip+"\"}");
+				out.println("{\"type\":\"Init\",\"infoInit\":\"Client-->Server  demande de connexion\", \"clientName\": \""+this.nom+"\", \"clientType\":\"autre\",\"mdp\":\"123\"}");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				
@@ -136,7 +136,7 @@ public class Client implements Runnable{
 	public void envoieMessage(String message,String dName,String dIP) {
 		try{
 			//client.out.println(inLine.substring(5, inLine.length()));
-			String messageJSON = "{ \"type\":\"message\",\"infoMessage\":{\"texte\":\""+message+"\",\"destinataire\":{\"dName\":\""+dName+"\",\"dIP\":\""+dIP+"\"},\"expediteur\":{\"eName\":\""+this.nom+"\",\"eIP\":\""+this.ip+"\"}}}";
+			String messageJSON = "{ \"type\":\"message\",\"infoMessage\":{\"texte\":\""+message+"\",\"destinataire\":{\"name\":\""+dName+"\",\"IP\":\""+dIP+"\"},\"expediteur\":{\"name\":\""+this.nom+"\",\"IP\":\""+this.ip+"\"}}}";
 			this.out.println(messageJSON);
 			
 		}catch(IndexOutOfBoundsException|java.lang.NullPointerException e){
@@ -154,8 +154,8 @@ public class Client implements Runnable{
 			JSONObject JSON = new JSONObject(j);
 			String type = JSON.getString("type");
 			System.out.println(""+this.nom+"\tType:"+type);
-			if(type.equals("start")){
-				String infoStart = JSON.getString("infoStart");
+			if(type.equals("init")){
+				String infoStart = JSON.getString("infoInit");
 				serverName = JSON.getString("serverName");
 				nomsConnexions.add(serverName);
 				interfaceClient.SelectionDestinataire.addItem(serverName);
@@ -170,10 +170,10 @@ public class Client implements Runnable{
 			}else if(type.equals("message")){
 
 				String texte = JSON.getJSONObject("infoMessage").getString("texte");
-				String dName = JSON.getJSONObject("infoMessage").getJSONObject("destinataire").getString("dName");
-				String dIP = JSON.getJSONObject("infoMessage").getJSONObject("destinataire").getString("dIP");
-				String eName = JSON.getJSONObject("infoMessage").getJSONObject("expediteur").getString("eName");
-				String eIP = JSON.getJSONObject("infoMessage").getJSONObject("expediteur").getString("eIP");
+				String dName = JSON.getJSONObject("infoMessage").getJSONObject("destinataire").getString("name");
+				String dIP = JSON.getJSONObject("infoMessage").getJSONObject("destinataire").getString("IP");
+				String eName = JSON.getJSONObject("infoMessage").getJSONObject("expediteur").getString("name");
+				String eIP = JSON.getJSONObject("infoMessage").getJSONObject("expediteur").getString("IP");
 				//String expediteur = JSON.getJSONObject("infoMessage").getString("expediteur");
 				System.out.println(""+this.nom+"\tMessage de: "+eName+" "+eIP);
 				System.out.println(""+this.nom+"\tpour: "+dName+" "+dIP);
