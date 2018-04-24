@@ -1,4 +1,4 @@
-const socket = new WebSocket("ws://localhost:8888");
+const socket = new WebSocket("ws://193.48.125.70:50007");
 const joystick = document.querySelector('#static');
 const footer = document.querySelector('#joystick-footer');
 
@@ -19,7 +19,8 @@ const manager = nipplejs.create(
 
 // Le client est ouvert
 socket.onopen = (event) => {
-    console.log("Je demande une connexion");
+    let init = { "type":"init","infoInit":"Client-->Server  demande de connexion","clientName":"Client42","clientType":"autre","mdp":"123"};
+    socket.send(JSON.stringify(init));
 };
 
 // Le serveur a envoyé des messages
@@ -36,6 +37,27 @@ manager.on('move', function(event, data) {
 });*/
 
 manager.on('dir', (event, data) => {
-    console.log(data);
-	socket.send(JSON.stringify(data.position));
+    let json = 
+    {
+        "type" : "commandeRobotino",
+        "commande" : "setPositions",
+        "data": {
+            "x": data.position.x,
+            "y": data.position.y,
+            "angle": {
+                "degree": data.angle.degree,
+                "radian": data.angle.radian
+            },
+        },
+        "destinataire" : {
+            "name" : "Server Robotino v1",
+            "ip" : "193.48.125.70:50007"
+        },
+        "expediteur" : {
+            "name" : "C1",
+            "ip" : "0.0.0.0"
+        }
+    };
+    console.log(json);
+    // socket.send(JSON.stringify(json))
 });
