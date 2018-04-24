@@ -62,7 +62,7 @@ public class Client implements Runnable{
 		if(connexionTrouve){
 			t1 = new Thread(consoleClient = new ConsoleClient(this));
 			t1.start();
-			this.out.println("{\"type\":\"requeteAllConnexionName\",\"expediteur\":{\"eName\":\""+this.nom+"\",\"eIP\":\""+this.ip+"\"}}");
+			this.out.println("{\"type\":\"requeteAllConnexionName\",\"expediteur\":{\"name\":\""+this.nom+"\",\"IP\":\""+this.ip+"\"}}");
 			try {
 				while(isClientRunning()){
 					//if(in.ready()){
@@ -111,6 +111,12 @@ public class Client implements Runnable{
 				//TimeUnit.MILLISECONDS.sleep(500);
 				System.out.println(""+this.nom+"\tAdresse de la socket: "+clientSocket.getLocalSocketAddress());
 				out.println("{\"type\":\"Init\",\"infoInit\":\"Client-->Server  demande de connexion\", \"clientName\": \""+this.nom+"\", \"clientType\":\"autre\",\"mdp\":\"123\"}");
+				//System.out.println("TEST6 "+nomsConnexions);
+				String initInLine = in.readLine();
+				this.decodeurJson(initInLine);
+				//System.out.println("TEST7 "+nomsConnexions+"  "+initInLine);
+
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				
@@ -155,12 +161,14 @@ public class Client implements Runnable{
 			String type = JSON.getString("type");
 			System.out.println(""+this.nom+"\tType:"+type);
 			if(type.equals("init")){
-				String infoStart = JSON.getString("infoInit");
+				String infoInit = JSON.getString("infoInit");
 				serverName = JSON.getString("serverName");
+				nomsConnexions.add("All");
 				nomsConnexions.add(serverName);
+				interfaceClient.SelectionDestinataire.addItem("All");
 				interfaceClient.SelectionDestinataire.addItem(serverName);
 				interfaceClient.SelectionDestinataire.setSelectedItem(serverName);
-				System.out.println(""+this.nom+"\tinfoStart: "+infoStart);
+				System.out.println(""+this.nom+"\tinfoInit: "+infoInit);
 			}else if(type.equals("requeteAllConnexionName")){//le client reçoit les nom des connexion
 				JSONArray arrNoms = JSON.getJSONArray("ConnexionsNames");
 				this.updateListeConnexion(arrNoms);
@@ -219,6 +227,8 @@ public class Client implements Runnable{
 			if(!this.nom.equals(CoName)){//si le nom est différent de celui de cette connexion
 				newNomsConnexions.add(CoName);
 				if(!nomsConnexions.contains(CoName)){
+					//System.out.println("TEST1 "+nomsConnexions);
+					//System.out.println("TEST2 "+CoName);
 					nomsConnexions.add(CoName);
 					interfaceClient.SelectionDestinataire.addItem(CoName);
 				}

@@ -279,10 +279,13 @@ public class ServerRobotino {
 				String j2="{\"type\":\"requeteAllConnexionName\","+this.returnJSONAllConnexionName()+"}";
 				String eName = JSON.getJSONObject("expediteur").getString("name");
 				this.envoiRequete(j2,eName,"0.0.0.0");
-			}else if(type.equals("setPosition")){//le client demande les nom des connexion
-				System.out.println("AAA\tsetPosition: "+j);
-				String eName = JSON.getJSONObject("expediteur").getString("name");
-				this.envoiRequete("{\"type\":\"log\",\"log\",\"Demande setPosition bien reçu\"}",eName,"0.0.0.0");
+			}else if(type.equals("commandeRobotino")){
+				String commande = JSON.getString("commande");
+				if(commande.equals("setPosition")){//le donne une nouvelle position au robot
+					System.out.println("AAA\tsetPosition: "+j);
+					String eName = JSON.getJSONObject("expediteur").getString("name");
+					this.envoiRequete("{\"type\":\"log\",\"log\",\"Demande setPosition bien reçu\"}",eName,"0.0.0.0");
+				}
 			}else if(type.equals("message")){// si on reçoit un message
 				String texte = JSON.getJSONObject("infoMessage").getString("texte");
 				String dName = JSON.getJSONObject("infoMessage").getJSONObject("destinataire").getString("name");
@@ -300,7 +303,7 @@ public class ServerRobotino {
 					this.interfaceServer.TextAreaMessageRecu.append(eName+"-->"+dName+": "+texte+"\n");
 				}else if(dName.equals("All")){//si message pour tout le monde
 					this.interfaceServer.TextAreaMessageRecu.append(eName+"-->"+dName+": "+texte+"\n");
-					this.envoiRequete(j,eName,eIP);
+					//this.envoiRequete(j,eName,eIP);
 					this.envoiRequete(j,dName,dIP);
 				}else{//si message pour un client
 					this.envoiRequete(j,eName,eIP);

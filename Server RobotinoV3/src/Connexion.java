@@ -42,14 +42,15 @@ public class Connexion implements Runnable{
 			this.in = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
 			
 			String inLine =in.readLine();
-			while(inLine.equals("commande reçu")){
+			while(this.serverRobotino.isServerRunning()&&(inLine.equals("commande reçu")||!inLine.startsWith("{"))){
 				inLine = in.readLine();//récupération des informations au déput de la connexion connexion
+
+				System.out.println(inLine);
 			}
 			initJSON = inLine;
-			System.out.println(initJSON);
-
+			System.out.println("initJSON: "+initJSON);
 			JSONObject JSON = new JSONObject(initJSON);
-			String type = JSON.getString("type");
+			this.type = JSON.getString("type");
 			System.out.println("Type:"+type);//type = init
 			String info1 = JSON.getString("infoInit");
 			System.out.println("info1: "+info1);
@@ -58,6 +59,8 @@ public class Connexion implements Runnable{
 			this.ipClient = socketClient.getLocalAddress().toString();
 			System.out.println("ipClient"+ipClient);
 			this.type = JSON.getString("clientType");
+			this.out.println("{ \"type\":\"init\",\"infoInit\":\"Server->Client Connexion accepté\",\"serverName\":\""+this.serverRobotino.getNom()+"\"}");
+
 			try {
 				serverRobotino.semStop.acquire();//le server ne peut plus modifier is ServerRunning
 				if(this.serverRobotino.isServerRunning()){
@@ -68,7 +71,6 @@ public class Connexion implements Runnable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			this.out.println("{ \"type\":\"init\",\"infoInit\":\"Server->Client Connexion accepté\",\"serverName\":\""+this.serverRobotino.getNom()+"\"}");
 
 			/*System.out.println("\tAdresse de la socket: "+socketClient.getLocalSocketAddress());
 			System.out.println("\tnormalement égal à ipClient: "+ipClient);
