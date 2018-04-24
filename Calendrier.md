@@ -33,9 +33,9 @@ Secrétaire : Erwan Prospert
 Responsable matériel et sécurité : Franck Battu   
 
 ## 03/05/18
-Animateur :   
-Secrétaire :  
-Responsable matériel et sécurité :   
+Animateur :   Tristan Grut   
+Secrétaire :  Fabien Lalande   
+Responsable matériel et sécurité :   Johann Pistorius   
 
 ## 15/05/18
 Animateur :   
