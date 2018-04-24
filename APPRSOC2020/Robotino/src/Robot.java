@@ -92,7 +92,12 @@ public class Robot implements Runnable
     public void run() {
     	/*System.out.println("Driving...");
         drive();*/
-        drive(100,0,-30,true);
+        try {
+			drive(100,0,-30,true);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     /*
     protected void circle() throws InterruptedException{
