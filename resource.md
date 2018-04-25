@@ -1,5 +1,7 @@
 193.48.125.37
 
+rsoc_20   a5070Y (APP RS-OC)      
+
 Ne pas brancher en filaire au reseau.
 
 Brancher d'abord sur secteur puis sur robot et inversement.
