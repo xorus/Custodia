@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+html {
+  display: flex;
+}
+
+body {
+	font-family: "Lato", sans-serif;
+	background-color: #fafafa;
+	display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-box-orient: vertical;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+
+    min-height: 100vh;
+    width: 100%;
+
+    overflow-x: hidden;
+
+}
+
+main {
+	-webkit-box-flex: 1 0 auto;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    -webkit-flex: 1 0 auto;
+}
+
+.footer {
+	flex-shrink: 0;
+	width: 100%;
+	background-color: #e0e0e0; 
+	padding-top: 30px;
+	padding-bottom: 10px;
+}
+
+.navbar-color {
+	background-color: #33b5e5; 
+}
+
+.navbar a {
+	color: #fff;
+}
+
+.navbar a:hover {
+	background: #0099CC;
+}
+
+.navbar .dropdown-menu {
+	background-color: #33b5e5; 
+}
+
+.navbar .dropdown-menu a:hover {
+	color: #fff;
+}
+
+.hamburger-icon {
+	color: white;
+}
+
+
+.img-cercle{
+	border-radius: 50%;
+	width: 70px;
+	height: 70px;
+}
+.information{
+	text-align: center;
+}
+
+/* Necessaire pour le PDF */
+.fulldoc {
+	position: relative;
+    display: block;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    min-height: 750px;
+}
+#wrapper{ 
+	width:100%; 
+	float:left; 
+	height:80vh; /* Particulièrement ça. */
+	border:1px 
+	solid #5694cf;
+}
