@@ -3,7 +3,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.TimeUnit;
+
+import javax.xml.bind.DatatypeConverter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,11 +79,11 @@ public class Connexion implements Runnable{
 					e.printStackTrace();
 				}
 			
-			}else if(inLine.startsWith("GET /favicon.ico HTTP/1.1")){//test web
+			}else if(inLine.startsWith("GET /favicon.ico HTTP/1.1")&&false){//test web
 				//ne rien faire
 				isStoping=true;
 				this.socketClient.close();
-			}else if(inLine.startsWith("POST / HTTP/1.1")){//||inLine.startsWith("GET ")){//test web
+			}else if((inLine.startsWith("POST / HTTP/1.1")||inLine.startsWith("GET "))&&false){//test web
 				String part1 =("HTTP/1.1 200 OK\r\nContent-Length: 1500\r\nDate: Mon, 24 Nov 2014 10:21:21 GMT\r\n Content-Type: text/html\r\n\r\n");
 				String part2 =("<!DOCTYPE HTML><html><head><title>test11</title><body><h1>Connexion aux server en cour</h1>");//</body></html>");
 				String part3 = ("<h1>Connexion aux server en cour2</h1></body></html>");
@@ -165,11 +169,61 @@ public class Connexion implements Runnable{
 					}
 				}
 			}else{
-				while(this.serverRobotino.isServerRunning()&&(inLine.equals("commande reçu")||!inLine.startsWith("{"))){
+				String part1 =("HTTP/1.1 200 OK\r\nContent-Length: 100\r\nDate: Mon, 24 Nov 2014 10:21:21 GMT\r\n Content-Type: text/html\r\n\r\n");
+				String part2 =("<!DOCTYPE HTML><html><head><title>test11</title><body><h1>Connexion aux server en cour</h1>");//</body></html>");
+				String part3 = ("<h1>Connexion aux server en cour2</h1></body></html>");
+				
+				//out.println(part1+part2+part3);
+				while(this.serverRobotino.isServerRunning()&&(inLine.equals("commande reçu")||!inLine.startsWith("Sec-WebSocket-Key: "))){
 					inLine = in.readLine();//récupération des informations au déput de la connexion connexion
 					System.out.println("message inconu: "+inLine);
 				}
-				System.out.println("fin message inconu: "+inLine);
+				//String delims = "[: ]";
+				String[] parse = inLine.split(": ");
+				String key = (parse[1].toString());
+				System.out.println("Sec-WebSocket-Key: "+key);
+				System.out.println("message: "+inLine);
+				try {
+					System.out.println("newSWSK: "+DatatypeConverter.printBase64Binary(MessageDigest.getInstance("SHA-1").digest((key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").getBytes("UTF-8"))).toString());
+				} catch (NoSuchAlgorithmException e1) {
+					e1.printStackTrace();
+				}
+				byte[] response;
+				try {
+					response = ("HTTP/1.1 101 Switching Protocols\r\n"
+					        + "Connection: Upgrade\r\n"
+					        + "Upgrade: websocket\r\n"
+					        + "Sec-WebSocket-Accept: "
+					        + DatatypeConverter
+					        .printBase64Binary(
+					                MessageDigest
+					                .getInstance("SHA-1")
+					                .digest((key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11")
+					                        .getBytes("UTF-8")))
+					        + "\r\n\r\n").getBytes("UTF-8");
+				    //System.out.println("reponse: "+response.toString());
+				    socketClient.getOutputStream().write(response, 0, response.length);
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				}
+			            //.getBytes("UTF-8");
+				inLine = in.readLine();//récupération des informations au déput de la connexion connexion
+				System.out.println("message inconu: "+inLine);inLine = in.readLine();//récupération des informations au déput de la connexion connexion
+				System.out.println("message inconu: "+inLine);
+			    //out.println(response.toString());
+				while(this.serverRobotino.isServerRunning()&&(inLine.equals("commande reçu")||!inLine.startsWith("test!!!"))){
+					inLine = in.readLine();//récupération des informations au déput de la connexion connexion
+					System.out.println("message inconu: "+inLine);
+					byte[] decoded = new byte[200];
+					byte[] encoded = inLine.getBytes();//new byte[] {198, 131, 130, 182, 194, 135};
+					byte[] key2 = key.getBytes();
+
+					for (int i = 0; i < encoded.length; i++) {
+					    decoded[i] = (byte)(encoded[i] ^ key2[i & 0x3]);
+						System.out.println("decoded: "+i+"  "+decoded[i]);
+					}
+					//System.out.println("message inconu: "+inLine.getBytes("UTF-8")[0]);
+				}
 			}
 			/*while(this.serverRobotino.isServerRunning()&&(inLine.equals("commande reçu")||!inLine.startsWith("{"))){
 				inLine = in.readLine();//récupération des informations au déput de la connexion connexion
