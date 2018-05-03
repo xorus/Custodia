@@ -50,11 +50,11 @@ public class ServerRobotino {
 	
 	public ServerRobotino(int port) {
 		try {
-			this.portServeur=port;
+			this.setPortServeur(port);
 			ip = InetAddress.getLocalHost ().getHostAddress ();
 			nom = "Server Robotion v1";
-			socketServer = new ServerSocket(portServeur);
-			System.out.println("IP: "+this.ip+":"+this.portServeur);
+			socketServer = new ServerSocket(getPortServeur());
+			System.out.println("IP: "+this.ip+":"+this.getPortServeur());
 			t1 = new Thread(new ConsoleServer(this));
 			t1.start();
 			this.interfaceServer = new InterfaceServer(this);
@@ -283,8 +283,14 @@ public class ServerRobotino {
 				String commande = JSON.getString("commande");
 				if(commande.equals("setPosition")){//le donne une nouvelle position au robot
 					System.out.println("AAA\tsetPosition: "+j);
+					System.out.println("commandeRobotino:"+commande);
 					String eName = JSON.getJSONObject("expediteur").getString("name");
-					this.envoiRequete("{\"type\":\"log\",\"log\",\"Demande setPosition bien reçu\"}",eName,"0.0.0.0");
+					this.envoiRequete("{\"type\":\"log\",\"log\",\"Demande setPosition bien reçu\"}",eName,"0.0.0.0:0");
+				}else if(type.equals("avancer")){
+					//String dName = JSON.getJSONObject("infoCommande").getJSONObject("destinataire").getString("name");
+					//String dIP = JSON.getJSONObject("infoCommande").getJSONObject("destinataire").getString("IP");
+					//this.envoiRequete(j, dName, dIP);
+					this.envoiRequete(j, "All", "0.0.0.0:0");
 				}
 			}else if(type.equals("message")){// si on reçoit un message
 				String texte = JSON.getJSONObject("infoMessage").getString("texte");
@@ -299,6 +305,7 @@ public class ServerRobotino {
 				System.out.println("");
 				if(dName.equals(this.getNom())){//si message pour le server
 					System.out.println(""+this.getNom()+"\t"+eName+" "+eIP+": "+texte);
+					this.envoiRequete(j,eName,eIP);
 					//affichage du message dans l'interface
 					this.interfaceServer.TextAreaMessageRecu.append(eName+"-->"+dName+": "+texte+"\n");
 				}else if(dName.equals("All")){//si message pour tout le monde
@@ -374,15 +381,21 @@ public class ServerRobotino {
 	public void envoieMessage(String message,String dName,String dIP) {
 		try{
 			//client.out.println(inLine.substring(5, inLine.length()));
-			String messageJSON = "{ \"type\":\"message\",\"infoMessage\":{\"texte\":\""+message+"\",\"destinataire\":{\"name\":\""+dName+"\",\"IP\":\""+dIP+"\"},\"expediteur\":{\"name\":\""+this.nom+"\",\"IP\":\""+this.ip+"\"}}}";
+			String messageJSON = "{ \"type\":\"message\",\"infoMessage\":{\"texte\":\""+message+"\",\"destinataire\":{\"name\":\""+dName+"\",\"IP\":\""+dIP+"\"},\"expediteur\":{\"name\":\""+this.nom+"\",\"IP\":\""+this.ip+":"+this.getPortServeur()+"\"}}}";
 			this.envoiRequete(messageJSON,dName,dIP);
-			System.out.println(""+this.getNom()+"\t"+this.getNom()+" "+this.ip+": "+message);
+			System.out.println(""+this.getNom()+"\t"+this.getNom()+" "+this.ip+":"+this.getPortServeur()+": "+message);
 			//affichage du message dans l'interface
 			this.interfaceServer.TextAreaMessageRecu.append(this.getNom()+"-->"+dName+": "+message+"\n");
 			
 		}catch(IndexOutOfBoundsException|java.lang.NullPointerException e){
 			System.out.println(e);
 		}
+	}
+	public int getPortServeur() {
+		return portServeur;
+	}
+	public void setPortServeur(int portServeur) {
+		this.portServeur = portServeur;
 	}
 	
 

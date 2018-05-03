@@ -40,7 +40,7 @@ public class ConsoleServer implements Runnable {
 						}else if(inLine.length()>4){
 							if(inLine.substring(0, 5).equals("send ")){
 								System.out.println("  Envoi du message : "+inLine.substring(5, inLine.length()));
-								String message = "{ \"type\":\"message\",\"infoMessage\":{\"texte\":\""+inLine.substring(5, inLine.length())+"\",\"destinataire\":{\"dName\":\"All\",\"dIP\":\"0.0.0.0\"},\"expediteur\":{\"eName\":\""+this.serverRobotino.getNom()+"\",\"eIP\":\""+this.serverRobotino.getIp()+"\"}}}";
+								String message = "{ \"type\":\"message\",\"infoMessage\":{\"texte\":\""+inLine.substring(5, inLine.length())+"\",\"destinataire\":{\"dName\":\"All\",\"dIP\":\"0.0.0.0\"},\"expediteur\":{\"eName\":\""+this.serverRobotino.getNom()+"\",\"eIP\":\""+this.serverRobotino.getIp()+":"+this.serverRobotino.getPortServeur()+"\"}}}";
 
 								this.serverRobotino.envoiRequete(message, "All", "0.0.0.0");
 								/*for (int i = this.serverRobotino.getConnexions().size()-1; i >= 0; i--) {

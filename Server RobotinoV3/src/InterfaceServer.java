@@ -31,6 +31,12 @@ public class InterfaceServer extends Interface{
 		}else if(partOfCommande[0].equals("all")||partOfCommande[0].equals("All")){
 			serverRobotino.envoieMessage(commande.substring(4, commande.length()), "All", "0.0.0.0");
 			
+		}else if((partOfCommande[0].equals("cr")||partOfCommande[0].equals("commandeRobotino"))&&partOfCommande.length>3){
+			if(partOfCommande[1].equals("av")||partOfCommande[1].equals("avancer")){
+				serverRobotino.envoiRequete("{\"type\":\"commandeRobotino\",\"commande\":\"avancer\",\"infoCommande\":{\"posX\":\""+partOfCommande[2]+"\",\"posY\":\""+partOfCommande[3]+"\"}}", SelectionDestinataire.getSelectedItem().toString(), "0.0.0.0");
+			}else{
+				this.TextAreaMessageRecu.append("Incorrect argument:"+partOfCommande[1]+"\n");
+			}
 		}else{
 			this.TextAreaMessageRecu.append("Incorrect command:"+partOfCommande[0]+"\n");
 		}
