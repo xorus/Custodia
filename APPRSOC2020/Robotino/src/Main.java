@@ -8,6 +8,13 @@ public class Main
 {
     public static void main(String[] args)
     {
+    	
+    	/*int port=50007;
+		String ipServer="192.168.56.1";//iplocal
+		ipServer="193.48.125.70";
+		ClientRobotino c1 = new ClientRobotino(ipServer,port,"Robotino1_"+(int)(Math.random() * (100000)));
+		new Thread(c1).start();*/
+    	
     	ArrayList<String> hostname=new ArrayList<String>();
     	hostname.add("193.48.125.37");
     	hostname.add("193.48.125.38");
@@ -16,6 +23,7 @@ public class Main
     		r.start();
     		if(r.isConnected()) {
     			r.run();
+    			//Fenetre win=new Fenetre(r);
     			break;
     		}
     	}
