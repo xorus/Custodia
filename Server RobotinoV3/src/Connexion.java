@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -55,17 +56,16 @@ public class Connexion implements Runnable{
 			out.println(part2);
 			out.println(part3);*/
 			System.out.println("New connexion; "+inLine);
-			if(inLine.startsWith("{")){//classique,on passe à la suite
+			if(inLine.startsWith("{")){//connexion classique en java,on passe à la suite
 				initJSON = inLine;
 				System.out.println("initJSON: "+initJSON);
 				JSONObject JSON = new JSONObject(initJSON);
-				this.type = JSON.getString("type");
-				System.out.println("Type:"+type);//type = init
+				this.type = JSON.getString("clientType");
+				System.out.println("clientType:"+type);//type = init
 				String info1 = JSON.getString("infoInit");
 				System.out.println("info1: "+info1);
 				//JSONObject JSON = new JSONObject(startJSON);
 				this.name = JSON.getString("clientName");
-				this.type = JSON.getString("clientType");
 				this.out.println("{ \"type\":\"init\",\"infoInit\":\"Server->Client Connexion accepté\",\"serverName\":\""+this.serverRobotino.getNom()+"\"}");
 
 				try {
@@ -169,11 +169,11 @@ public class Connexion implements Runnable{
 					}
 				}
 			}else{
-				String part1 =("HTTP/1.1 200 OK\r\nContent-Length: 100\r\nDate: Mon, 24 Nov 2014 10:21:21 GMT\r\n Content-Type: text/html\r\n\r\n");
+				/*String part1 =("HTTP/1.1 200 OK\r\nContent-Length: 100\r\nDate: Mon, 24 Nov 2014 10:21:21 GMT\r\n Content-Type: text/html\r\n\r\n");
 				String part2 =("<!DOCTYPE HTML><html><head><title>test11</title><body><h1>Connexion aux server en cour</h1>");//</body></html>");
 				String part3 = ("<h1>Connexion aux server en cour2</h1></body></html>");
 				
-				//out.println(part1+part2+part3);
+				//out.println(part1+part2+part3);*/
 				while(this.serverRobotino.isServerRunning()&&(inLine.equals("commande reçu")||!inLine.startsWith("Sec-WebSocket-Key: "))){
 					inLine = in.readLine();//récupération des informations au déput de la connexion connexion
 					System.out.println("message inconu: "+inLine);
@@ -211,19 +211,28 @@ public class Connexion implements Runnable{
 				System.out.println("message inconu: "+inLine);inLine = in.readLine();//récupération des informations au déput de la connexion connexion
 				System.out.println("message inconu: "+inLine);
 			    //out.println(response.toString());
-				while(this.serverRobotino.isServerRunning()&&(inLine.equals("commande reçu")||!inLine.startsWith("test!!!"))){
-					inLine = in.readLine();//récupération des informations au déput de la connexion connexion
-					System.out.println("message inconu: "+inLine);
-					byte[] decoded = new byte[200];
-					byte[] encoded = inLine.getBytes();//new byte[] {198, 131, 130, 182, 194, 135};
-					byte[] key2 = {encoded[2], encoded[3], encoded[4], encoded[5]};
+		        String message = decodeWebSocketMessage();
+				while(this.serverRobotino.isServerRunning()&&(!message.startsWith("{"))){
+					//inLine = in.readLine();//récupération des informations au déput de la connexion connexion
+					System.out.println("message non JSON: "+message);
 
-					for (int i = 6; i < encoded.length; i++) {
-					    decoded[i] = (byte)(encoded[i] ^ key2[i & 0x3]);
-						System.out.println("decoded: "+i+"  "+decoded[i]);
-					}
-					//System.out.println("message inconu: "+inLine.getBytes("UTF-8")[0]);
+			        message = decodeWebSocketMessage();
+					
+				}//on a le message d'init
+				initJSON = message;
+				System.out.println("initJSON: "+initJSON);
+				JSONObject JSON = new JSONObject(initJSON);
+				this.type = JSON.getString("clientType");
+				System.out.println("clientType:"+type);
+				String info1 = JSON.getString("infoInit");
+				System.out.println("info1: "+info1);
+				if(this.type.equals("autre")){
+					this.type="web";
 				}
+				this.name = JSON.getString("clientName");
+				//    !!!! a réparer
+				//this.out.println("{ \"type\":\"init\",\"infoInit\":\"Server->Client Connexion accepté\",\"serverName\":\""+this.serverRobotino.getNom()+"\"}");
+
 			}
 			/*while(this.serverRobotino.isServerRunning()&&(inLine.equals("commande reçu")||!inLine.startsWith("{"))){
 				inLine = in.readLine();//récupération des informations au déput de la connexion connexion
@@ -239,20 +248,27 @@ public class Connexion implements Runnable{
 			System.out.println("\tInit connexion: "+startJSON);*/
 
 
-			while(this.serverRobotino.isServerRunning()&&(!isStoping)){
-				//if(in.ready()){
+			while(this.serverRobotino.isServerRunning()&&(!isStoping)){//lecture des nouveau message
+				if(this.type.contains("web")){//connexion web
+					this.encodeWebSocketMessage("test");
+					isRunning=false;
+					inLine = decodeWebSocketMessage();
+					isRunning=true;
+					if(!inLine.equals("commande reçu")){
+						//this.out.println("commande reçu");
+						System.out.println("C\tgetIntputStreamServer: "+inLine);
+						this.serverRobotino.decodeurJson(inLine);
+					}
+				}else{//connexion java
 					isRunning=false;
 					inLine = in.readLine();
 					isRunning=true;
 					if(!inLine.equals("commande reçu")){
-						this.out.println("commande reçu");
+						//this.out.println("commande reçu");
 						System.out.println("C\tgetIntputStreamServer: "+inLine);
 						this.serverRobotino.decodeurJson(inLine);
 					}
-				//}else{
-					//TimeUnit.MILLISECONDS.sleep(100);
-				//}
-				
+				}
 			}//Fermeture connxion
 			//out.println("Connexion closed by server stoped");
 			System.out.println("\tConnexion closed by server stoped");
@@ -276,7 +292,80 @@ public class Connexion implements Runnable{
 			this.stopConnexion();
 		}
 	}
-	
+	public void encodeWebSocketMessage(String message){
+		String requete = "";
+		//this.out.println(requete); 
+	}
+	public String decodeWebSocketMessage() throws IOException{//code trouvé: https://stackoverflow.com/questions/18368130/how-to-parse-and-validate-a-websocket-frame-in-java
+		String message="";
+		InputStream buf = socketClient.getInputStream();
+        message = "";
+
+        // Fin + RSV + OpCode byte
+        byte b = (byte) buf.read();
+		System.out.println("byte inconu: "+b);
+        boolean fin = ((b & 0x80) != 0);
+        boolean rsv1 = ((b & 0x40) != 0);
+        boolean rsv2 = ((b & 0x20) != 0);
+        boolean rsv3 = ((b & 0x10) != 0);
+        //frame.opcode = (byte)(b & 0x0F);
+
+        // TODO: add control frame fin validation here
+        // TODO: add frame RSV validation here
+
+        // Masked + Payload Length
+        b = (byte) buf.read();
+        boolean masked = ((b & 0x80) != 0);
+        int payloadLength = (0x7F & b);
+        int byteCount = 0;
+        if (payloadLength == 0x7F) {
+            // 8 byte extended payload length
+            byteCount = 8;
+            payloadLength = 0;
+        }
+        else if (payloadLength == 0x7E) {
+            // 2 bytes extended payload length
+            byteCount = 2;
+            payloadLength = 0;
+        }
+
+        // Decode Payload Length
+        while (byteCount-- > 0){
+        	b = (byte) buf.read();
+            System.out.println("payloadLength1: "+payloadLength+", "+((b & 0xFF) << (8 * byteCount))+", "+(b & 0xFF)+", "+(8 * byteCount));
+        	 payloadLength += (b & 0xFF) << (8 * byteCount);
+        }
+
+        // TODO: add control frame payload length validation here
+
+        byte maskingKey[] = null;
+        if (masked) {
+            // Masking Key
+            maskingKey = new byte[4];
+            buf.read(maskingKey,0,4);
+            /*maskingKey[0] = (byte) buf.read();
+            maskingKey[1] = (byte) buf.read();
+            maskingKey[2] = (byte) buf.read();
+            maskingKey[3] = (byte) buf.read();*/
+        }
+
+        // TODO: add masked + maskingkey validation here
+
+        // Payload itself
+		System.out.println("payloadLength: "+payloadLength);
+        byte[] payload = new byte[payloadLength];//texte codé si maked==true
+        buf.read(payload,0,payloadLength);
+        //buf.get(frame.payload,0,payloadLength);
+
+        // Demask (if needed)
+        if (masked){
+            for (int i = 0; i < payload.length; i++){
+                payload[i] ^= (maskingKey[i % 4] & 0xFF);
+            }
+        }
+		message=new String(payload, "UTF-8");
+		return message;
+	}
 	public String getName() {
 		return name;
 	}

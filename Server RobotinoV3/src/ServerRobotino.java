@@ -36,6 +36,7 @@ public class ServerRobotino {
 	//private ArrayList<Socket> socketCilents = new ArrayList<Socket>();
 	//private ArrayList<Thread> inputThreads = new ArrayList<Thread>();
 	private ArrayList<Connexion> connexions = new ArrayList<Connexion>();
+	private ArrayList<Connexion> connexionsRobotino = new ArrayList<Connexion>();
 	public String CoNameToDelete="";//utilisé pour bloqué le choix de connexion si celle-ci disparaissait
 
 
@@ -132,6 +133,9 @@ public class ServerRobotino {
 	public synchronized void addConnexion(Connexion connexion) {
 		if(isNoConnexionWithSameName(connexion.getName())){
 			this.connexions.add(connexion);
+			if(connexion.getType().equals("robotino")){
+				this.connexionsRobotino.add(connexion);
+			}
 			String j2="{\"type\":\"requeteAllConnexionName\","+this.returnJSONAllConnexionName()+"}";
 			this.envoiRequete(j2,"All","0.0.0.0");//envoi à toute les connexions la liste de nom des connexion
 			interfaceServer.SelectionDestinataire.addItem(connexion.getName());
@@ -142,6 +146,9 @@ public class ServerRobotino {
 	}
 	public synchronized void removeConnexion(Connexion connexion) {
 		this.connexions.remove(connexion);
+		if(connexion.getType().equals("robotino")){
+			this.connexionsRobotino.remove(connexion);
+		}
 		String j2="{\"type\":\"requeteAllConnexionName\","+this.returnJSONAllConnexionName()+"}";
 		this.envoiRequete(j2,"All","0.0.0.0");//envoi à toute les connexions la liste de nom des connexion
 		this.removeInterfaceListConnexion(connexion.getName());
@@ -251,6 +258,18 @@ public class ServerRobotino {
 				System.out.println("Connexion "+i+" introuvable, "+e);
 			}
 		}
+		for (int i = this.connexionsRobotino.size()-1; i >= 0; i--) {
+			try{
+				System.out.println("test envoi connexion robotino n°"+i+" dName: "+dName);
+				if(dName.equals("AllRobotino")){
+					System.out.println("envoi connexion robotino n°"+i);
+					messageEnvoye=true;
+					connexionsRobotino.get(i).getOut().println(j);
+				}
+			}catch(IndexOutOfBoundsException|java.lang.NullPointerException e){//catch si on essaye d'envoyer une requête à un client qui s'est enlevé de la liste
+				System.out.println("connexionsRobotino "+i+" introuvable, "+e);
+			}
+		}
 		return messageEnvoye;
 	}
 
@@ -280,12 +299,14 @@ public class ServerRobotino {
 				String eName = JSON.getJSONObject("expediteur").getString("name");
 				this.envoiRequete(j2,eName,"0.0.0.0");
 			}else if(type.equals("commandeRobotino")){
+				//{"type":"commandeRobotino","commande":"setPositions","data":{"x":242,"y":817,"angle":{"degree":-86.75265720967708,"radian":-1.5141195031628618}},"destinataire":{"name":"Server Robotino v1","ip":"193.48.125.70:50007"},"expediteur":{"name":"C1","ip":"0.0.0.0"}}
 				String commande = JSON.getString("commande");
-				if(commande.equals("setPosition")){//le donne une nouvelle position au robot
-					System.out.println("AAA\tsetPosition: "+j);
+				this.envoiRequete(j, "AllRobotino", "0.0.0.0:0");
+				if(commande.equals("setPositions")){//le donne une nouvelle position au robot
+					System.out.println("AAA\tsetPositions: "+j);
 					System.out.println("commandeRobotino:"+commande);
 					String eName = JSON.getJSONObject("expediteur").getString("name");
-					this.envoiRequete("{\"type\":\"log\",\"log\",\"Demande setPosition bien reçu\"}",eName,"0.0.0.0:0");
+					//this.envoiRequete("{\"type\":\"log\",\"log\",\"Demande setPosition bien reçu\"}",eName,"0.0.0.0:0");
 				}else if(type.equals("avancer")){
 					//String dName = JSON.getJSONObject("infoCommande").getJSONObject("destinataire").getString("name");
 					//String dIP = JSON.getJSONObject("infoCommande").getJSONObject("destinataire").getString("IP");

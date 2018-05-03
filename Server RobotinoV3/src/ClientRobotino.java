@@ -24,7 +24,7 @@ public class ClientRobotino extends Client{
 				in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				ip=clientSocket.getLocalSocketAddress().toString().substring(1, clientSocket.getLocalSocketAddress().toString().length());
 				System.out.println(""+this.nom+"\tAdresse de la socket: "+ip);
-				out.println("{\"type\":\"Init\",\"infoInit\":\"Robotino-->Server  demande de connexion\", \"clientName\": \""+this.nom+"\", \"clientType\":\"robotion\",\"mdp\":\"123\"}");
+				out.println("{\"type\":\"Init\",\"infoInit\":\"Robotino-->Server  demande de connexion\", \"clientName\": \""+this.nom+"\", \"clientType\":\"robotino\",\"mdp\":\"123\"}");
 				String initInLine = in.readLine();
 				this.decodeurJson(initInLine);
 			} catch (IOException e) {
@@ -93,6 +93,13 @@ public class ClientRobotino extends Client{
 						String posX = JSON.getJSONObject("infoCommande").getString("posX");
 						String posY = JSON.getJSONObject("infoCommande").getString("posY");
 						System.out.println("CommandeRobotino:"+commande+" posX:"+posX+" posY:"+posY);
+						//A completer!!!
+					}else if(commande.equals("setPositions")){
+						long x = JSON.getJSONObject("data").getLong("x");
+						long y = JSON.getJSONObject("data").getLong("y");
+						long angleDegree = JSON.getJSONObject("data").getJSONObject("angle").getLong("degree");
+						long angleRadian = JSON.getJSONObject("data").getJSONObject("angle").getLong("radian");
+						System.out.println("CommandeRobotino:"+commande+" x:"+x+" y:"+y+" angleDegree:"+angleDegree+" angleRadian:"+angleRadian);
 						//A completer!!!
 					}
 				}else{
