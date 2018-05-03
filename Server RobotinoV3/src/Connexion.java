@@ -216,9 +216,9 @@ public class Connexion implements Runnable{
 					System.out.println("message inconu: "+inLine);
 					byte[] decoded = new byte[200];
 					byte[] encoded = inLine.getBytes();//new byte[] {198, 131, 130, 182, 194, 135};
-					byte[] key2 = key.getBytes();
+					byte[] key2 = {encoded[2], encoded[3], encoded[4], encoded[5]};
 
-					for (int i = 0; i < encoded.length; i++) {
+					for (int i = 6; i < encoded.length; i++) {
 					    decoded[i] = (byte)(encoded[i] ^ key2[i & 0x3]);
 						System.out.println("decoded: "+i+"  "+decoded[i]);
 					}
