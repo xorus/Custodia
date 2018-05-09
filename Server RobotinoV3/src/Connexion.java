@@ -3,9 +3,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.DatatypeConverter;
@@ -230,6 +232,17 @@ public class Connexion implements Runnable{
 					this.type="web";
 				}
 				this.name = JSON.getString("clientName");
+
+				try {
+					serverRobotino.semStop.acquire();//le server ne peut plus modifier is ServerRunning
+					if(this.serverRobotino.isServerRunning()){
+						serverRobotino.addConnexion(this);
+						isStarting= true;
+					}
+					serverRobotino.semStop.release();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				//    !!!! a réparer
 				//this.out.println("{ \"type\":\"init\",\"infoInit\":\"Server->Client Connexion accepté\",\"serverName\":\""+this.serverRobotino.getNom()+"\"}");
 
@@ -250,7 +263,7 @@ public class Connexion implements Runnable{
 
 			while(this.serverRobotino.isServerRunning()&&(!isStoping)){//lecture des nouveau message
 				if(this.type.contains("web")){//connexion web
-					this.encodeWebSocketMessage("test");
+					this.encodeWebSocketMessage("{\"type\":\"test\"}");
 					isRunning=false;
 					inLine = decodeWebSocketMessage();
 					isRunning=true;
@@ -293,9 +306,96 @@ public class Connexion implements Runnable{
 		}
 	}
 	public void encodeWebSocketMessage(String message){
-		String requete = "";
-		//this.out.println(requete); 
+		try {
+			//byte en byte [-128..127]  byte en int [0..255]
+			String requete = "";
+			//byte[] bytesMessage = "{\"test\":\"test\"}".getBytes("UTF-8");
+			byte[] bytesMessage = message.getBytes("UTF-8");
+			ArrayList<Byte> bytes = new ArrayList<Byte>();
+			bytes.add((byte) 129);
+			//bytes.add((byte) 128);
+			//ArrayList<Byte> bytes = new ArrayList<Byte>();
+			double messageLength=bytesMessage.length;
+			int masked=0;
+			byte[] bytesRequete;//requete+message
+			int bytesRequeteIndex=0;
+			if(messageLength<126){//longueur du message compris sur 7 bits
+				bytes.add((byte) (128*masked+messageLength));
+				bytesRequete= new byte[bytesMessage.length+2+0+masked*4];
+			}else if(messageLength<(2<<16 - 1)){//longueur du message compris sur 16 bits
+				bytes.add((byte) (128*masked+126));
+				double messageLengthTemp=messageLength;
+				int quotient=0;
+				for(int i = 2;i>0;i--){
+					quotient=(int) (messageLengthTemp/(Math.pow(256, i-1)));
+					System.out.println(i+": "+quotient+" = "+messageLengthTemp+"/"+(Math.pow(256, i-1)));
+					messageLengthTemp-=quotient*Math.pow(256, i-1);
+					bytes.add((byte)quotient);
+				}
+				bytesRequete= new byte[bytesMessage.length+2+2+masked*4];
+			}else{//longueur du message compris sur 64 bits
+				bytes.add((byte) (128*masked+127));
+				double messageLengthTemp=messageLength;
+				int quotient=0;
+				for(int i = 8;i>0;i--){
+					quotient=(int) (messageLengthTemp/(Math.pow(256, i-1)));
+					System.out.println(i+": "+quotient+" = "+messageLengthTemp+"/"+(Math.pow(256, i-1)));
+					messageLengthTemp-=quotient*Math.pow(256, i-1);
+					bytes.add((byte)quotient);
+				}
+				bytesRequete= new byte[bytesMessage.length+2+8+masked*4];
+			}
+			 if (masked==1) {//inutilisé
+				 byte maskingKey[] = new byte[4];
+				 maskingKey[0] = (byte) 120;//random
+				 maskingKey[1] = (byte) 120;//random
+				 maskingKey[2] = (byte) 120;//random
+				 maskingKey[3] = (byte) 120;//random
+				 bytes.add(maskingKey[0]);
+				 bytes.add(maskingKey[1]);
+				 bytes.add(maskingKey[2]);
+				 bytes.add(maskingKey[3]);
+	            for (int i = 0; i < bytesMessage.length; i++){
+	            	bytesMessage[i] = (byte) ((maskingKey[i % 4] & 0xFF)^bytesMessage[i]);
+	            }
+			}
+			for (int i = 0; i < bytes.size(); i++) {
+				bytesRequete[bytesRequeteIndex]=bytes.get(i);
+				bytesRequeteIndex++;
+			}
+			for (int i = 0; i < bytesMessage.length; i++) {
+				bytesRequete[bytesRequeteIndex]=bytesMessage[i];
+				bytesRequeteIndex++;
+			}
+			//bytesRequete
+			/*bytes.add((byte)bytesMessage[0]);
+			bytes.add((byte)bytesMessage[1]);
+			bytes.add((byte)bytesMessage[2]);
+			bytes.add((byte)bytesMessage[3]);
+			System.out.println("test bytes: "+bytes);
+			//out.write();
+			byte[] b = new byte[0];
+			byte[] b2 = bytes.toArray(new byte[0]);*/
+			/*System.out.println("test bytes Messages: "+bytesMessage[0]);
+			System.out.println("test bytes Messages: "+bytesMessage[1]);
+			System.out.println("test bytes Messages: "+bytesMessage[2]);
+			System.out.println("test bytes Messages: "+bytesMessage[3]);*/
+			System.out.println("test bytes: "+bytes);
+			try {
+				socketClient.getOutputStream().write(bytesRequete);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+	
+			
+			//this.out.println(requete); 
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
+	
+	//https://tools.ietf.org/html/rfc6455#section-5.2
 	public String decodeWebSocketMessage() throws IOException{//code trouvé: https://stackoverflow.com/questions/18368130/how-to-parse-and-validate-a-websocket-frame-in-java
 		String message="";
 		InputStream buf = socketClient.getInputStream();

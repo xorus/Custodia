@@ -248,11 +248,19 @@ public class ServerRobotino {
 				if(connexions.get(i).getName().equals(dName)){
 					System.out.println("envoi connexion n°"+i);
 					messageEnvoye=true;
-					connexions.get(i).getOut().println(j);
+					if(connexions.get(i).getType().contains("web")){
+						connexions.get(i).encodeWebSocketMessage(j);
+					}else{
+						connexions.get(i).getOut().println(j);
+					}
 				}else if(dName.equals("All")){
 					System.out.println("envoi connexion n°"+i);
 					messageEnvoye=true;
-					connexions.get(i).getOut().println(j);
+					if(connexions.get(i).getType().contains("web")){
+						connexions.get(i).encodeWebSocketMessage(j);
+					}else{
+						connexions.get(i).getOut().println(j);
+					}
 				}
 			}catch(IndexOutOfBoundsException|java.lang.NullPointerException e){//catch si on essaye d'envoyer une requête à un client qui s'est enlevé de la liste
 				System.out.println("Connexion "+i+" introuvable, "+e);

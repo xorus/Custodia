@@ -8,7 +8,7 @@ public class ExempleConnexionRobotinoMain {
 		int port=50007;
 		String ipServer="192.168.56.1";//iplocal
 		ipServer="193.48.125.70";
-		ipServer="193.48.125.219";
+		ipServer="193.48.125.213";
 		ClientRobotino c1 = new ClientRobotino(ipServer,port,"Robotino1_"+(int)(Math.random() * (100000)));
 		new Thread(c1).start();
 		/*new Thread(new Client(ipServer,port,"C2_"+(int)(Math.random() * (100000)))).start();

@@ -97,8 +97,8 @@ public class ClientRobotino extends Client{
 					}else if(commande.equals("setPositions")){
 						long x = JSON.getJSONObject("data").getLong("x");
 						long y = JSON.getJSONObject("data").getLong("y");
-						long angleDegree = JSON.getJSONObject("data").getJSONObject("angle").getLong("degree");
-						long angleRadian = JSON.getJSONObject("data").getJSONObject("angle").getLong("radian");
+						float angleDegree = JSON.getJSONObject("data").getJSONObject("angle").getFloat("degree");
+						float angleRadian = JSON.getJSONObject("data").getJSONObject("angle").getFloat("radian");
 						System.out.println("CommandeRobotino:"+commande+" x:"+x+" y:"+y+" angleDegree:"+angleDegree+" angleRadian:"+angleRadian);
 						//A completer!!!
 					}
