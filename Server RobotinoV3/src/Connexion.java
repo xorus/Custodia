@@ -263,7 +263,7 @@ public class Connexion implements Runnable{
 
 			while(this.serverRobotino.isServerRunning()&&(!isStoping)){//lecture des nouveau message
 				if(this.type.contains("web")){//connexion web
-					this.encodeWebSocketMessage("{\"type\":\"test\"}");
+					//this.encodeWebSocketMessage("{\"type\":\"test\"}");
 					isRunning=false;
 					inLine = decodeWebSocketMessage();
 					isRunning=true;
@@ -380,7 +380,7 @@ public class Connexion implements Runnable{
 			System.out.println("test bytes Messages: "+bytesMessage[1]);
 			System.out.println("test bytes Messages: "+bytesMessage[2]);
 			System.out.println("test bytes Messages: "+bytesMessage[3]);*/
-			System.out.println("test bytes: "+bytes);
+			//System.out.println("test bytes: "+bytes);
 			try {
 				socketClient.getOutputStream().write(bytesRequete);
 			} catch (IOException e) {

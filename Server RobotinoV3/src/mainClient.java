@@ -8,7 +8,7 @@ public class mainClient {
 		int port=50007;
 		String ipServer="192.168.56.1";//iplocal
 		ipServer="193.48.125.70";
-		ipServer="193.48.125.219";
+		ipServer="193.48.125.213";
 		//new Thread(new Client(ipServer,port,"C1")).start();
 		//Min + (Math.random() * (Max - Min))
 		ClientUtilisateur c1 = new ClientUtilisateur(ipServer,port,"C1_A"+(int)(Math.random() * (100000)));
