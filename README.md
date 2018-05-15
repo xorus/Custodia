@@ -24,8 +24,8 @@ Télé-surveillance robotisée assistée par des objets connectés.
 * Jean-Jacques Curtelin
 
 ## Communication
-Lien Gdrive, aller voir, demander les droits d'édition:
-> https://drive.google.com/drive/folders/1Ofv-TvyC_dI2_iVumWCIZdLxfFYRJbBr?usp=sharing
+Lien Gdrive, aller voir, demander les droits d'édition (nouveau drive):
+> https://drive.google.com/drive/folders/1j13RblHfqo__h6bVEIlAeFYR3X2pOZ62?usp=sharing
 
 Lien Discord (Chat en direct + chat vocal):
 > https://discord.gg/954RZct
