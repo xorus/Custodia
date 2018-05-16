@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+body {
+    font-family: "Nunito", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    display: -ms-flexbox;
+    display: flex;
+    
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+nav, ul, li, a {
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    flex-grow: 1;
+    margin-bottom: 200px;
+}
+
+/* NAVBAR */
+.menu {
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+    position: sticky;
+    top: 0;
+    z-index: 10000;
+}
+
+.menu ul {
+    background-color: #0d47a1;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.menu li:first-child {
+    margin-right: auto;
+}
+
+.menu li:last-child {
+    display: none;
+}
+
+.menu a {
+    display: block;
+    text-decoration: none;
+    color: #f9f9f9;
+    padding: 0.8em 1em;
+    text-transform: uppercase;
+}
+
+.menu a:hover {
+    background-color: rgba(0,0,0,0.4);
+}
+
+.hamburger-menu {
+    display: none !important;
+}
+
+/* FOOTER */
+.footer {
+    margin: auto;
+    background-color: #01579b  ;
+    width: 100%;
+    color: #fff;
+    padding-top: 20px;
+    z-index: 300;
+}
+
+.footer hr {
+    width: 80%;
+    height: 1px;
+    background-color: #fff;
+    border: none;
+}
+
+.footer .icons {
+    color: #fff;
+    text-align: center;
+}
+
+.footer .icons i {
+    color: #fff;
+}
+
+
+.show-inversed {
+    display: none;
+}
+
+.white {
+    color: #fff !important;
+}
+
+.float-right {
+    float: right !important;
+}
+
+.center {
+    text-align: center !important;
+}
+
+.padding-bot-20 {
+    padding-bottom: 20px;
+}
+
+.padding-top-20 {
+    padding-top: 20px;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.accueil {
+    padding-top: 20px;
+    text-align: center;
+}
+
+.img-homepage {
+	margin-bottom: 50px;
+}
+
+.img-cercle{
+	border-radius: 50%;
+	width: 100px;
+	height: 100px;
+}
+
+.img-participant{
+	border-radius: 50%;
+	width:300px;
+	height:300px;
+}
+
+/*Page participant*/
+.photo_profil{
+
+	width:300px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.titre_participant{
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+.description_participant{
+	text-align:justify;
+	position: relative;
+	left:0%;
+	padding: 5px;
+}
+.detailParticipant{
+	margin-top:10px;
+}
+
+.information{
+	text-align: center;
+}
+
+/* Necessaire pour le PDF */
+.fulldoc {
+	position: relative;
+    display: block;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    min-height: 750px;
+    height: 100vh;
+    z-index: 200;
+}
+
+#wrapper{ 
+	width: 90vw;
+	margin-left: 5vw;
+	align-self: center;
+	float:left; 
+	height:80vh; /* Particulièrement ça. Pierre qui roule n'amasse pas mousse*/
+	/*
+	border:1px 
+	solid #5694cf; */
+    z-index: 200;
+}
+
+/* Box de l'accueil */
+
+.box {
+    box-shadow: 0 5px 20px 0 #999;
+    width: 500px;
+}
+
+.box-image {
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+}
+
+.box-image img {
+    width: 100%;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+}
+
+.box-body {
+    text-align: left;
+    padding: 15px 20px;
+    box-sizing: border-box;
+}
+
+.box-body p {
+    color: #a6a6a6;
+    font-size: 14px !important;
+    margin: 0 30px;
+}
+
+
+.my-jumbotron {
+    background-color: #82b1ff;
+    text-align: center;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.titre-accueil {
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+}
+
+.flex-container{
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.image-accueil {
+    background: url("https://besthqwallpapers.com/Temp/9-5-2018/material-design-gray-and-blue-lollipop-lines-art-besthqwallpapers.com-2560x1440.jpg") no-repeat;
+    min-width: 100%;
+    margin-bottom: 50px;
+    height: 500px;
+}
+
+.image-titre {
+    text-transform: uppercase;
+    text-align: center;
+    vertical-align: middle;
+    color: #fff;
+    padding-top: 5%;
+}
+
+
+.subject{
+    height:200px;
+}
+
+.send  {
+    margin-top:20px;
+    margin-left: auto;
+    margin-right:auto;
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+}
+
+.send :hover {
+    background-color: #45a049;
+}
+
+.form-title{
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+
+.form-content{
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+
+.lienParticipant{
+    margin-left:45%;
+}
+
+/* Media queries */
+@media screen and (max-width: 600px) {
+    .form-title, .form-content{
+        width: 100%;
+        margin-top: 0;
+    }
+
+}
+
+@media screen and (max-width: 992px) {
+    .flex-container{
+        flex-direction: column;
+        justify-content: center;
+    }
+    .personne{
+        white-space: nowrap;
+        margin:auto;
+        padding-bottom: 10px;
+    }
+	.photo_profil{
+		width:300px;
+		margin-left: auto;
+		margin-right: auto;
+    }
+    
+    
+	.description_participant{
+		position: relative;
+		left:0%;
+		padding: 5px;
+		text-align:justify;
+    }
+    
+    .menu li:last-child {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .show {
+        display: flex;
+        flex-direction: column;
+    }
+}
