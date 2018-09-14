@@ -17,6 +17,8 @@ public class ConnexionJava implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.serverRobotino=serverRobotino;
+		this.socketClient=socketClient;
 		System.out.println("C\tgetIntputStreamServer: "+firstLine);
 	}
 
@@ -26,11 +28,11 @@ public class ConnexionJava implements Runnable {
 			String inLine;
 			while(this.serverRobotino.isServerRunning()){//lecture des nouveau message
 				inLine = in.readLine();
-				if(!inLine.equals("commande reçu")){
+				//if(!inLine.equals("commande reçu")){
 					//this.out.println("commande reçu");
-					System.out.println("C\tgetIntputStreamServer: "+inLine);
+				System.out.println("C\tgetIntputStreamServer: "+inLine);
 					//this.serverRobotino.decodeurJson(inLine);
-				}
+				//}
 			}
 		} catch (IOException e) {e.printStackTrace();}
 		System.out.println("C\ttest fin de conection par rupture de conexion: ");

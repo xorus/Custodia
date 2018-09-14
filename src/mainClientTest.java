@@ -26,6 +26,11 @@ public class mainClientTest {
 			out = new PrintWriter(clientSocket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			out.println("{\"type\":\"Init\",\"infoInit\":\"Client-->Server  demande de connexion\", \"clientName\": \""+""+"\", \"clientType\":\"Java\"}");
+			out.println("{\"type\":\"Message\",\"message\":\"test1\"}");
+			out.println("{\"type\":\"Message\",\"message\":\"test2\"}");
+			out.println("{\"type\":\"Message\",\"message\":\"test3\"}");
+			out.println("{\"type\":\"Message\",\"message\":\"test4\"}");
+			out.println("{\"type\":\"Message\",\"message\":\"test5\"}");
 			clientSocket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
