@@ -67,8 +67,8 @@ public class ServerRobotino {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.waitNewConnexion();
-		this.stopServer();
+		this.waitNewConnexion(); //On commence a couter
+		this.stopServer(); // Une fois fini d'ecouter, on s'arrête
         try {TimeUnit.MILLISECONDS.sleep(100);} catch (InterruptedException e) {System.out.println(" interrupted");}
 	}
 	public void waitNewConnexion(){
