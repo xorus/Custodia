@@ -6,12 +6,12 @@ import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
 
-public class ConnexionJava implements Runnable {
+public class ConnexionRobotino implements Runnable {
 	private ServerRobotino serverRobotino;
 	private Socket socketClient;
 	private PrintWriter out;
 	private BufferedReader in;
-	public ConnexionJava(ServerRobotino serverRobotino, Socket socketClient, String firstLine) {
+	public ConnexionRobotino(ServerRobotino serverRobotino, Socket socketClient, String firstLine) {
 		try {
 			this.out = new PrintWriter(socketClient.getOutputStream(), true);
 			this.in = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
@@ -26,7 +26,7 @@ public class ConnexionJava implements Runnable {
 
 	@Override
 	public void run() {
-		serverRobotino.addConnexionJava(this);
+		serverRobotino.addConnexionRobotino(this);
 		try {
 			String inLine = "";
 			while(this.serverRobotino.isServerRunning()&&inLine!=null){//lecture des nouveau message
@@ -36,7 +36,7 @@ public class ConnexionJava implements Runnable {
 			}
 		} catch (IOException e) {/*e.printStackTrace();*/}//connexion fermé
 		System.out.println("C\ttest fin de conection par rupture de connexion: ");
-		serverRobotino.removeConnexionJava(this);
+		serverRobotino.removeConnexionRobotino(this);
 	}
 
 }

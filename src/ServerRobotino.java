@@ -13,7 +13,9 @@ import java.util.concurrent.Semaphore;
 public class ServerRobotino {
 	private int portServeur;
 	private ServerSocket socketServer = null;
-	private ArrayList<ConnexionJava> connexions = new ArrayList<ConnexionJava>();
+	private ArrayList<ConnexionJava> connexionsJava = new ArrayList<ConnexionJava>();
+	private ArrayList<ConnexionRobotino> connexionsRobotino = new ArrayList<ConnexionRobotino>();
+	private ArrayList<ConnexionWeb> connexionsWeb = new ArrayList<ConnexionWeb>();
 	//private ArrayList<Connexion> connexionsRobotino = new ArrayList<Connexion>();
 
 	//private Thread t1;
@@ -40,7 +42,9 @@ public class ServerRobotino {
 				if(serverRunning){
 					if(firstLine.startsWith("{")){//connexion classique en java,on passe à la suite
 						new Thread(new ConnexionJava(this,socketClient,firstLine)).start();
-					}
+					}/*else{
+						new Thread(new ConnexionWeb(this,socketClient)).start();
+					}*/
 				}else{
 					new PrintWriter(socketClient.getOutputStream(), true).println("Connexion canceled cause server is stopping");
 					socketClient.close();
@@ -56,5 +60,23 @@ public class ServerRobotino {
 	}
 	public void setServerRunning(boolean serverRunning) {
 		this.serverRunning = serverRunning;
+	}
+	public synchronized void addConnexionJava(ConnexionJava connexion) {
+		this.connexionsJava.add(connexion);
+	}
+	public synchronized void removeConnexionJava(ConnexionJava connexion) {
+		this.connexionsJava.remove(connexion);
+	}
+	public synchronized void addConnexionRobotino(ConnexionRobotino connexion) {
+		this.connexionsRobotino.add(connexion);
+	}
+	public synchronized void removeConnexionRobotino(ConnexionRobotino connexion) {
+		this.connexionsRobotino.remove(connexion);
+	}
+	public synchronized void addConnexionWeb(ConnexionWeb connexion) {
+		this.connexionsWeb.add(connexion);
+	}
+	public synchronized void removeConnexionWeb(ConnexionWeb connexion) {
+		this.connexionsWeb.remove(connexion);
 	}
 }

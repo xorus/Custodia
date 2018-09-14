@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 public class mainClientTest {
 
@@ -15,7 +16,7 @@ public class mainClientTest {
 		Socket clientSocket;
 		int port=50007;
 		String ipServer="192.168.56.1";//iplocal
-		ipServer="193.48.125.70";
+		//ipServer="193.48.125.70";
 		//ipServer="193.48.125.219";
 		//new Thread(new Client(ipServer,port,"C1")).start();
 		//Min + (Math.random() * (Max - Min))
@@ -31,7 +32,14 @@ public class mainClientTest {
 			out.println("{\"type\":\"Message\",\"message\":\"test3\"}");
 			out.println("{\"type\":\"Message\",\"message\":\"test4\"}");
 			out.println("{\"type\":\"Message\",\"message\":\"test5\"}");
-			clientSocket.close();
+			//try {TimeUnit.MILLISECONDS.sleep(3000);} catch (InterruptedException e) {e.printStackTrace();}
+			String inLine="";
+			while(true){//&&inLine!=null){//lecture des nouveau message
+				//try {TimeUnit.MILLISECONDS.sleep(500);} catch (InterruptedException e) {e.printStackTrace();}
+				inLine = in.readLine();
+				System.out.println("client\tgetIntputStreamServer: "+inLine);
+			}
+			//clientSocket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
