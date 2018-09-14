@@ -26,6 +26,7 @@ Télé-surveillance robotisée assistée par des objets connectés.
 ## Communication
 Lien Gdrive, aller voir, demander les droits d'édition (nouveau drive):
 > https://drive.google.com/drive/folders/1j13RblHfqo__h6bVEIlAeFYR3X2pOZ62?usp=sharing
+> https://trello.com/b/2rmTl6eS/custodiadeplacement
 
 Lien Discord (Chat en direct + chat vocal):
 > https://discord.gg/954RZct
