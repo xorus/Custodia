@@ -13,7 +13,7 @@ Télé-surveillance robotisée assistée par des objets connectés.
 * Thibaud Murtin
 * Franck Battu
 * Adrien Rybarczyk
-* Erwan Prospert aka CyberFoxar
+* Erwan Prospert
 * Fabien Lalande
 * Johann Pistorius
 * Tristan Grut
@@ -23,14 +23,6 @@ Télé-surveillance robotisée assistée par des objets connectés.
 * Flavien Vernier
 * Sebastien Monnet
 * Jean-Jacques Curtelin
-
-## Communication
-Lien Gdrive, aller voir, demander les droits d'édition (nouveau drive):
-> https://drive.google.com/drive/folders/1j13RblHfqo__h6bVEIlAeFYR3X2pOZ62?usp=sharing
-> https://trello.com/b/2rmTl6eS/custodiadeplacement
-
-Lien Discord (Chat en direct + chat vocal):
-> https://discord.gg/954RZct
 
 ## Liens GitHub des projets précédents
 Téléprésence robotisée :
