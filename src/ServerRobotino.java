@@ -38,13 +38,14 @@ public class ServerRobotino {
 			System.out.println("Server lancé");
 			while(serverRunning){
 				Socket socketClient = socketServer.accept();//Quelque chose essai de se connecter
-				String firstLine =new BufferedReader(new InputStreamReader(socketClient.getInputStream())).readLine();//on regarde la première ligne que nous envoi la client
+				BufferedReader in = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));;
+				String firstLine = in.readLine();
 				if(serverRunning){
 					if(firstLine.startsWith("{")){//connexion classique en java,on passe à la suite
-						new Thread(new ConnexionJava(this,socketClient,firstLine)).start();
-					}/*else{
-						new Thread(new ConnexionWeb(this,socketClient)).start();
-					}*/
+						new Thread(new ConnexionJava(this,socketClient,firstLine,in)).start();
+					}else{
+						new Thread(new ConnexionWeb(this,socketClient,firstLine,in)).start();
+					}
 				}else{
 					new PrintWriter(socketClient.getOutputStream(), true).println("Connexion canceled cause server is stopping");
 					socketClient.close();

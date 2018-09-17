@@ -13,17 +13,20 @@ public class ConnexionJava implements Runnable {
 	private Socket socketClient;
 	private PrintWriter out;
 	private BufferedReader in;
-	public ConnexionJava(ServerRobotino serverRobotino, Socket socketClient, String firstLine) {
+	public ConnexionJava(ServerRobotino serverRobotino, Socket socketClient, String firstLine, BufferedReader in) {
 		try {
 			this.out = new PrintWriter(socketClient.getOutputStream(), true);
-			this.in = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
+			this.in = in;
 			out.println("{\"type\":\"init\",\"infoInit\":\"Connection accepté\"}");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		this.serverRobotino=serverRobotino;
 		this.socketClient=socketClient;
-		System.out.println("C\tgetIntputStreamServer: "+firstLine);
+		System.out.println("CoJ\tgetIntputStreamServer: "+firstLine);
+		JSONObject JSON = new JSONObject(firstLine);
+		String info = JSON.getString("infoStart");
+		System.out.println("CoJ\tinfo: "+info);
 	}
 
 	@Override
@@ -33,30 +36,30 @@ public class ConnexionJava implements Runnable {
 			String inLine = "";
 			while(this.serverRobotino.isServerRunning()&&inLine!=null){//lecture des nouveau message
 				inLine = in.readLine();
-				System.out.println("C\tgetIntputStreamServer2: "+inLine);
+				System.out.println("CoJ\tgetIntputStreamServer2: "+inLine);
 				this.decodeurJson(inLine);
 			}
 		} catch (IOException e) {/*e.printStackTrace();*/}//connexion fermé
-		System.out.println("C\ttest fin de conection par rupture de connexion: ");
+		System.out.println("CoJ\ttest fin de conection par rupture de connexion: ");
 		serverRobotino.removeConnexionJava(this);
 	}
 	public void decodeurJson(String j) {
 		try{
 			JSONObject JSON = new JSONObject(j);
 			String type = JSON.getString("type");
-			System.out.println("S\ttype:"+type);
+			System.out.println("CoJ\ttype:"+type);
 			
 			if(type.equals("init")){//inutilisé ici, uniquement au début de la classe connexion
 				String info = JSON.getString("infoStart");
-				System.out.println("S\tinfo: "+info);
+				System.out.println("CoJ\tinfo: "+info);
 				
 			}else if(type.equals("message")){//message
 				String message = JSON.getString("message");
-				System.out.println("Message: "+message);
+				System.out.println("CoJ\tMessage: "+message);
 			}
 		}catch(org.json.JSONException e){
-			System.out.println("erreur decodage JSON: "+e);
-			System.out.println("JSON: "+j);
+			System.out.println("CoJ\terreur decodage JSON: "+e);
+			System.out.println("CoJ\tJSON: "+j);
 		}
 	}
 
