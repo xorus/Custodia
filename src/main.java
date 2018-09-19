@@ -2,7 +2,7 @@
 public class main {
 
 	public static void main(String[] args) {
-		int port=50007;
+		int port= configIO.getJavaPort() ;
 		ServerRobotino server = new ServerRobotino(port);
 	}
 

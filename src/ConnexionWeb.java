@@ -44,12 +44,12 @@ public class ConnexionWeb implements Runnable {
 			String[] parse = inLine.split(": ");
 			String key = (parse[1].toString());
 			System.out.println("Sec-WebSocket-Key: "+key);
-			System.out.println("message: "+inLine);
-			try {
-				System.out.println("newSWSK: "+DatatypeConverter.printBase64Binary(MessageDigest.getInstance("SHA-1").digest((key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").getBytes("UTF-8"))).toString());
-			} catch (NoSuchAlgorithmException e1) {
-				e1.printStackTrace();
-			}
+//			System.out.println("message: "+inLine);
+//			try {
+//				System.out.println("newSWSK: "+DatatypeConverter.printBase64Binary(MessageDigest.getInstance("SHA-1").digest((key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").getBytes("UTF-8"))).toString());
+//			} catch (NoSuchAlgorithmException e1) {
+//				e1.printStackTrace();
+//			}
 			byte[] response;
 			try {
 				response = ("HTTP/1.1 101 Switching Protocols\r\n"
@@ -69,8 +69,9 @@ public class ConnexionWeb implements Runnable {
 				e.printStackTrace();
 			}
 		            //.getBytes("UTF-8");
-			inLine = in.readLine();//récupération des informations au déput de la connexion connexion
-			System.out.println("message inconu: "+inLine);inLine = in.readLine();//récupération des informations au déput de la connexion connexion
+			inLine = in.readLine();//récupération des informations au début de la connexion connexion
+			System.out.println("message inconu: "+inLine);
+			inLine = in.readLine();//récupération des informations au début de la connexion connexion
 			System.out.println("message inconu: "+inLine);
 		    //out.println(response.toString());
 	        String message = decodeWebSocketMessage();
