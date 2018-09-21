@@ -25,7 +25,7 @@ public class ConnexionJava implements Runnable {
 		this.socketClient=socketClient;
 		System.out.println("CoJ\tgetIntputStreamServer: "+firstLine);
 		JSONObject JSON = new JSONObject(firstLine);
-		String info = JSON.getString("infoStart");
+		String info = JSON.getString("infoInit");
 		System.out.println("CoJ\tinfo: "+info);
 	}
 

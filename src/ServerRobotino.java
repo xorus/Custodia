@@ -9,6 +9,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
+import org.json.JSONObject;
+
 /**
  * Classe qui represente le serveur principal.
  * Tout le monde s'y connecte, il redistribue les messages, 
@@ -41,14 +43,40 @@ public class ServerRobotino {
 	}
 	private void waitNewConnexion() {
 		try {
-			System.out.println("Server lancé");
+			System.out.println("Server lanc�");
 			while(serverRunning){
 				Socket socketClient = socketServer.accept();//Quelque chose essai de se connecter
 				BufferedReader in = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));;
 				String firstLine = in.readLine();
 				if(serverRunning){
-					if(firstLine.startsWith("{")){//connexion classique en java,on passe à la suite
-						new Thread(new ConnexionJava(this,socketClient,firstLine,in)).start();
+					if(firstLine.startsWith("{")){//connexion classique avec reception d'un JSON
+						try{
+							JSONObject JSON = new JSONObject(firstLine);
+							String type = JSON.getString("type");
+							
+							if(type.equals("init")){
+								String clientType = JSON.getString("clientType");
+								if(clientType.equals("Java")){//connexion d'un client Java
+									new Thread(new ConnexionJava(this,socketClient,firstLine,in)).start();
+								}else if(clientType.equals("Robotino")){//connexion d'un Robotino
+									new Thread(new ConnexionRobotino(this,socketClient,firstLine,in)).start();
+								}else{//type de client non reconu
+									PrintWriter out = new PrintWriter(socketClient.getOutputStream(), true);
+									out.println("L( ¨° 3¨° )J----#:`* no socket for u");
+									socketClient.close();
+								}
+							}else{//JSON invalide
+								PrintWriter out = new PrintWriter(socketClient.getOutputStream(), true);
+								out.println("L( ¨° 3¨° )J----#:`* no socket for u");
+								socketClient.close();
+							}
+						}catch(org.json.JSONException e){//JSON non valide
+							System.out.println("CoSR\tConexion non valide: ");
+							System.out.println("CoSR\tJSON: "+firstLine);
+							PrintWriter out = new PrintWriter(socketClient.getOutputStream(), true);
+							out.println("L( ¨° 3¨° )J----#:`* no socket for u");
+							socketClient.close();
+						}
 					}else if(firstLine.startsWith("GET")){ //Ca commence par GET, c'est une Websocket
 						new Thread(new ConnexionWeb(this,socketClient,firstLine,in)).start();
 					}
@@ -63,8 +91,8 @@ public class ServerRobotino {
 				}
 			}
 		} catch (IOException e) {
-			System.out.println("Arrêt d'écoute de nouvelle connexion");
-			//e.printStackTrace();//affiche erreur en cas d'arrêt forcé
+			System.out.println("Arr�t d'�oute de nouvelle connexion");
+			//e.printStackTrace();//affiche erreur en cas d'arr�t forc�
 		}
 	}
 	public boolean isServerRunning() {
